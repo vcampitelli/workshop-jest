@@ -10,7 +10,8 @@ const UserRepository = new Repository();
 
 app.get('/', function (req, res) {
     res.send({
-        status: false
+        status: true,
+        version: '0.0.1
     });
 });
 
