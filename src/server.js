@@ -10,7 +10,7 @@ const UserRepository = new Repository();
 
 app.get('/', function (req, res) {
     res.send({
-        status: true
+        status: false
     });
 });
 
