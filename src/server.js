@@ -8,22 +8,21 @@ app.use(bodyParser.json());
 
 const UserRepository = new Repository();
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     res.send({
         status: true,
-        version: '0.0.2'
     });
 });
 
-app.get('/user', function (req, res) {
+app.get('/user', function(req, res) {
     res.send({
         status: true,
         code: 200,
-        data: Object.values(UserRepository.findAll())
+        data: Object.values(UserRepository.findAll()),
     });
 });
 
-app.post('/user', function (req, res) {
+app.post('/user', function(req, res) {
     if (req.body.username) {
         req.body.username = req.body.username.trim();
     }
@@ -31,36 +30,37 @@ app.post('/user', function (req, res) {
         return res.status(401).send({
             status: false,
             code: 401,
-            error: 'Username não especificado'
+            error: 'Username não especificado',
         });
     }
 
-    const found = UserRepository.filter((id, row) => row.username === req.body.username);
+    const found = UserRepository.filter(
+        (id, row) => row.username === req.body.username);
     if (found) {
         return res.status(409).send({
             status: false,
             code: 409,
-            error: 'Username já está em uso'
+            error: 'Username já está em uso',
         });
     }
 
     const user = UserRepository.save({
-        username: req.body.username
+        username: req.body.username,
     });
     res.status(201).send({
         status: true,
         code: 201,
-        data: user
+        data: user,
     });
 });
 
-app.get('/user/:id', function (req, res) {
+app.get('/user/:id', function(req, res) {
     const user = UserRepository.findById(req.params.id);
     if (!user) {
         res.status(404).send({
             status: false,
             code: 404,
-            message: 'Usuário não encontrado'
+            message: 'Usuário não encontrado',
         });
         return;
     }
@@ -68,17 +68,17 @@ app.get('/user/:id', function (req, res) {
     res.send({
         status: true,
         code: 200,
-        data: user
+        data: user,
     });
 });
 
-app.delete('/user/:id', function (req, res) {
+app.delete('/user/:id', function(req, res) {
     const user = UserRepository.findById(req.params.id);
     if (!user) {
         res.status(404).send({
             status: false,
             code: 404,
-            message: 'Usuário não encontrado'
+            message: 'Usuário não encontrado',
         });
         return;
     }
@@ -87,13 +87,13 @@ app.delete('/user/:id', function (req, res) {
         res.status(500).send({
             status: false,
             code: 500,
-            message: 'Houve um erro desconhecido ao apagar o usuário'
+            message: 'Houve um erro desconhecido ao apagar o usuário',
         });
         return;
     }
 
     res.send({
-        status: true
+        status: true,
     });
 });
 

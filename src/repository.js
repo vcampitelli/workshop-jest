@@ -2,7 +2,7 @@ class Repository {
     /**
      * Repositório
      *
-     * @type {Object[]}
+     * @type {{Object}}
      */
     #DATABASE = {};
 
@@ -16,7 +16,7 @@ class Repository {
     /**
      * Retorna todos os registros do repositório
      *
-     * @returns {Object[]}
+     * @returns {{Object}}
      */
     findAll() {
         return this.#DATABASE;
@@ -38,10 +38,12 @@ class Repository {
      * Retorna o ID do registro encontrado a partir do filtro especificado ou null se nada for encontrado
      *
      * @param {function(int, object):boolean} callable
-     * @returns {int}
+     * @returns {int|null}
      */
     filter(callable) {
-        return parseInt(Object.keys(this.#DATABASE).find(id => callable(id, this.#DATABASE[id])));
+        const id = Object.keys(this.#DATABASE)
+                .find(id => callable(id, this.#DATABASE[id]));
+        return (id === undefined) ? null : parseInt(id);
     }
 
     /**
@@ -61,7 +63,7 @@ class Repository {
     /**
      * Removes the object with the specified iD
      *
-     * @param {int} id
+     * @param {int|string} id
      * @returns {boolean}
      */
     deleteById(id) {
@@ -74,9 +76,6 @@ class Repository {
             return false;
         }
         delete this.#DATABASE[id];
-        // if (id === this.#LAST_KEY) {
-        //     this.#LAST_KEY--;
-        // }
         return true;
     }
 
