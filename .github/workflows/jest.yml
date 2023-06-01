@@ -20,3 +20,9 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm test
+    - name: Deploy
+      if: github.event_name == 'push'
+      env:
+        URL_RENDER_DEPLOY_HOOK: ${{ secrets.URL_RENDER_DEPLOY_HOOK }}
+      run: |
+        curl --fail-with-body $URL_RENDER_DEPLOY_HOOK
